@@ -1,0 +1,31 @@
+version: "3.4"
+
+services:
+  nginx:
+    build: .
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/usr/local/nginx/conf/nginx.conf:ro
+    networks:
+      - frontend
+  server_1:
+    image: nginx
+    volumes:
+      - ./index_1.html:/usr/share/nginx/html/index.html
+      - ./nginx_worker.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 9001:80
+    networks:
+      - frontend
+  server_2:
+    image: nginx
+    volumes:
+      - ./index_2.html:/usr/share/nginx/html/index.html
+      #- ./nginx_worker.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 9002:80
+    networks:
+      - frontend
+networks:
+  frontend:
