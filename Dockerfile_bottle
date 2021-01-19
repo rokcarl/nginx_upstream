@@ -1,0 +1,7 @@
+FROM python:3.9.1-alpine3.12
+
+RUN pip install bottle
+
+WORKDIR /app
+
+CMD ["python", "upstream_server.py"]

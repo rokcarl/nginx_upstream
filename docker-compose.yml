@@ -9,7 +9,7 @@ services:
       - ./nginx.conf:/usr/local/nginx/conf/nginx.conf:ro
     networks:
       - frontend
-  server_1:
+  server_html_error:
     image: nginx
     volumes:
       - ./index_1.html:/usr/share/nginx/html/index.html
@@ -18,13 +18,23 @@ services:
       - 9001:80
     networks:
       - frontend
-  server_2:
+  server_html:
     image: nginx
     volumes:
       - ./index_2.html:/usr/share/nginx/html/index.html
       #- ./nginx_worker.conf:/etc/nginx/nginx.conf:ro
     ports:
       - 9002:80
+    networks:
+      - frontend
+  server_slow:
+    build:
+        context: .
+        dockerfile: Dockerfile_bottle
+    volumes:
+      - ./upstream_server.py:/app/upstream_server.py
+    ports:
+      - 9003:80
     networks:
       - frontend
 networks:
